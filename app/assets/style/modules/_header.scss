@@ -1,0 +1,25 @@
+.m-header {
+  display: flex;
+  justify-content: space-between;
+
+  &__logo,
+  &__item {
+    line-height: 60px;
+    display: block;
+    padding: 0 15px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+    > i {
+      transition: transform 0.3s;
+    }
+  }
+
+  &__item:hover {
+    background-color: rgba(#000, 0.05);
+
+    > i {
+      transform: rotate(180deg);
+    }
+  }
+}

@@ -1,12 +1,15 @@
 <template lang="pug">
 el-container
-  el-header
-    el-button(
-    v-if='label'
-    @click='signout'
-    type='text'
-    ) ログアウト
-    | {{ label }}
+  el-header(height='auto')
+    .m-header
+      router-link(:to='{ name: "index" }')
+        .m-header__logo logo
+      el-dropdown(@command='handleCommand')
+        span.m-header__item
+          | {{ label }}
+          i.el-icon-arrow-down.el-icon--right
+        el-dropdown-menu(slot='dropdown')
+          el-dropdown-item(command='signout') ログアウト
   el-container
     el-aside
       el-menu(router)
@@ -41,6 +44,9 @@ export default {
   },
   methods: {
     ...mapMutations(['resetAlert']),
+    handleCommand(command) {
+      this[command]()
+    },
     signout() {
       firebase
         .auth()
