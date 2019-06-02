@@ -12,16 +12,26 @@ el-container
       el-menu(router)
         el-menu-item(index='articles') 記事
     el-main
+      el-alert.mb-20(
+      v-if='alert.title'
+      :title='alert.title'
+      :description='alert.description'
+      :type='alert.type'
+      ref='alert'
+      @close='resetAlert'
+      )
       nuxt
 </template>
 
 <script>
 import firebase from '~/plugins/firebase'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   computed: {
+    ...mapGetters(['user', 'alert']),
     label() {
-      const user = this.$store.getters.user || {}
-      return user.displayName || user.email
+      if (!this.user) return
+      return this.user.displayName || this.user.email
     }
   },
   created() {
@@ -30,6 +40,7 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(['resetAlert']),
     signout() {
       firebase
         .auth()
@@ -40,6 +51,11 @@ export default {
         .catch(error => {
           alert(error)
         })
+    }
+  },
+  watch: {
+    $route(value) {
+      this.resetAlert()
     }
   }
 }

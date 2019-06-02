@@ -19,6 +19,7 @@ el-form(label-width='120px')
 
 <script>
 import { create } from '~/utils/firebase'
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -27,17 +28,32 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setAlert']),
     async create() {
-      const data = await create({
-        collection: 'articles',
-        id: this.title,
-        data: {
-          title: this.title,
-          body: this.body,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        }
-      })
+      if (!this.title && !this.body) return
+      const title = this.title
+      try {
+        const data = await create({
+          collection: 'articles',
+          id: this.title,
+          data: {
+            title: this.title,
+            body: this.body,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          }
+        })
+        this.setAlert({
+          title: '記事を作成しました',
+          type: 'success'
+        })
+      } catch (e) {
+        this.setAlert({
+          title: '記事作成に失敗しました',
+          description: e.toString(),
+          type: 'error'
+        })
+      }
     }
   }
 }

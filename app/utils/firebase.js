@@ -24,10 +24,8 @@ export const create = async ({ collection, id, data }) => {
     .collection(collection)
     .doc(id)
     .set(data)
-    .then(() => {})
     .catch(e => {
-      // todo
-      return e
+      throw e
     })
   return result
 }
