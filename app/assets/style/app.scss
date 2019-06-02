@@ -1,0 +1,16 @@
+@import './_variables';
+@import './_reset';
+
+@import './modules/_layout';
+
+.m-page {
+  &__header {
+    margin-bottom: 30px;
+    display: flex;
+  }
+
+  &__title {
+    font-size: $font-size-pagetitle;
+    margin-right: 20px;
+  }
+}
