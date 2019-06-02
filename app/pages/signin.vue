@@ -16,35 +16,40 @@
         type='primary'
         size='small'
         @click='signin'
+        :loading='isLoading'
         ) ログイン
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
+import { signin } from '~/utils/firebase'
+import { mapMutations } from 'vuex'
 export default {
   layout: 'auth',
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      isLoading: false
     }
   },
-  created() {
-    firebase.auth().onAuthStateChanged(user => {
-      this.$store.dispatch('setUser', { user })
-    })
-  },
   methods: {
-    signin() {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(user => {
-          this.$router.push('/admin')
+    ...mapMutations(['setAlert']),
+    async signin() {
+      this.isLoading = true
+      try {
+        await signin({
+          email: this.email,
+          password: this.password
         })
-        .catch(error => {
-          alert(error)
+        this.$router.push('/')
+      } catch (e) {
+        this.isLoading = false
+        this.setAlert({
+          title: 'ログインに失敗しました',
+          description: e.toString(),
+          type: 'error'
         })
+      }
     }
   }
 }

@@ -24,8 +24,17 @@ export const create = async ({ collection, id, data }) => {
     .collection(collection)
     .doc(id)
     .set(data)
-    .catch(e => {
-      throw e
+    .catch(error => {
+      throw error
     })
   return result
+}
+
+export const signin = async ({ email, password }) => {
+  const result = await firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .catch(error => {
+      throw error
+    })
 }

@@ -33,7 +33,6 @@ el-container.m-container
       :title='alert.title'
       :description='alert.description'
       :type='alert.type'
-      ref='alert'
       @close='resetAlert'
       )
       nuxt
