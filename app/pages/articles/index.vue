@@ -19,7 +19,7 @@ section.m-page
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
+import { getIndex } from '~/utils/firebase'
 export default {
   data() {
     return {
@@ -28,7 +28,7 @@ export default {
     }
   },
   async created() {
-    const data = await this.$store.dispatch('getIndex', {
+    const data = await getIndex({
       collection: 'articles'
     })
     this.data = data.map(v => {

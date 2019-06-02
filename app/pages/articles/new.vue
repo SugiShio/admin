@@ -18,7 +18,7 @@ el-form(label-width='120px')
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
+import { create } from '~/utils/firebase'
 export default {
   data() {
     return {
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     async create() {
-      const data = await this.$store.dispatch('create', {
+      const data = await create({
         collection: 'articles',
         id: this.title,
         data: {
