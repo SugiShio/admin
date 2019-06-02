@@ -31,7 +31,6 @@ export default {
     ...mapMutations(['setAlert']),
     async create() {
       if (!this.title && !this.body) return
-      const title = this.title
       try {
         const data = await create({
           collection: 'articles',
