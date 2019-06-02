@@ -2,11 +2,10 @@
 section.m-page
   .m-page__header
     h2.m-page__title 記事一覧
-    router-link(to='new')
+    router-link(:to='{ name: "articles-new" }')
       el-button(
       size='mini'
       icon='el-icon-plus'
-      @click='$router'
       ) 新規投稿
   el-table(
   v-loading='isLoading'

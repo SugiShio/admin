@@ -10,7 +10,7 @@ el-container
   el-container
     el-aside
       el-menu(router)
-        el-menu-item(index='articles') 記事
+        el-menu-item(index='/articles') 記事
     el-main
       el-alert.mb-20(
       v-if='alert.title'
