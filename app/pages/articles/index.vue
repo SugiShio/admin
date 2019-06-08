@@ -15,6 +15,13 @@ section.m-page
     prop='title'
     label='タイトル'
     )
+    el-table-column(
+    fixed='right'
+    align='right'
+    )
+      template(slot-scope='scope')
+        el-button(size='mini' icon='el-icon-edit' @click='toEdit(scope.row.title)')
+
 </template>
 
 <script>
@@ -38,6 +45,14 @@ export default {
       return { ...v, createdAt, updatedAt }
     })
     this.isLoading = false
+  },
+  methods: {
+    toEdit(title) {
+      this.$router.push({
+        name: 'articles-edit',
+        params: { title }
+      })
+    }
   }
 }
 </script>

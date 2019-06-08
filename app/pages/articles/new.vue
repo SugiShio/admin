@@ -11,6 +11,8 @@ el-form(label-width='120px')
     :autosize='{ minRows: 4, maxRows: 12}'
     )
   el-form-item
+    el-checkbox(v-model='draft') 下書き
+  el-form-item
     el-button(
     size='mini'
     @click='create'
@@ -24,7 +26,8 @@ export default {
   data() {
     return {
       title: '',
-      body: ''
+      body: '',
+      draft: false
     }
   },
   methods: {
@@ -38,6 +41,7 @@ export default {
           data: {
             title: this.title,
             body: this.body,
+            published: !this.draft,
             createdAt: new Date(),
             updatedAt: new Date()
           }
