@@ -21,11 +21,13 @@ section.m-page
     )
       template(slot-scope='scope')
         el-button(size='mini' icon='el-icon-edit' @click='toEdit(scope.row.title)')
+        el-button(size='mini' icon='el-icon-delete' type='danger' @click='mDelete(scope.row.title)')
 
 </template>
 
 <script>
-import { getIndex } from '~/utils/firebase'
+import { getIndex, deleteDoc } from '~/utils/firebase'
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -47,11 +49,31 @@ export default {
     this.isLoading = false
   },
   methods: {
+    ...mapMutations(['setAlert']),
     toEdit(title) {
       this.$router.push({
         name: 'articles-edit',
         params: { title }
       })
+    },
+    async mDelete(title) {
+      if (!window.confirm('削除しますか？')) return
+      try {
+        await deleteDoc({
+          collection: 'articles',
+          id: title
+        })
+        this.setAlert({
+          title: '記事を削除しました',
+          type: 'success'
+        })
+      } catch (e) {
+        this.setAlert({
+          title: '削除に失敗しました',
+          description: e.toString(),
+          type: 'error'
+        })
+      }
     }
   }
 }

@@ -61,6 +61,18 @@ export const update = async ({ collection, id, data }) => {
   return result
 }
 
+export const deleteDoc = async ({ collection, id }) => {
+  const result = await firebase
+    .firestore()
+    .collection(collection)
+    .doc(id)
+    .delete()
+    .catch(error => {
+      throw error
+    })
+  return result
+}
+
 export const signin = async ({ email, password }) => {
   const result = await firebase
     .auth()
