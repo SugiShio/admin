@@ -52,7 +52,7 @@ export default {
     ...mapMutations(['setAlert']),
     toEdit(title) {
       this.$router.push({
-        name: 'articles-edit',
+        name: 'articles-title',
         params: { title }
       })
     },
