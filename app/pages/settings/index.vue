@@ -14,11 +14,9 @@ export default {
     }
   },
   async created() {
-    const data = await getIndex({
+    this.data = await getIndex({
       collection: 'settings'
     })
-    this.data = data
-    this.isLoading = false
     this.$store.commit('setIsLoading', { isLoading: false })
   }
 }

@@ -33,12 +33,11 @@ export default {
   },
   async created() {
     try {
-      const data = await getShow({
+      this.data = await getShow({
         collection: 'articles',
         doc: this.$route.params.title
       })
-      this.data = data
-      this.data.draft = !data.published
+      this.data.draft = this.data.published
       this.setIsLoading({ isLoading: false })
     } catch (e) {
       this.setIsLoading({ isLoading: false })

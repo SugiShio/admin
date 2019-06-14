@@ -34,7 +34,7 @@ export default {
     }
   },
   async created() {
-    const data = await getIndex({
+    this.data = await getIndex({
       collection: 'articles'
     })
     this.setIsLoading({ isLoading: false })
