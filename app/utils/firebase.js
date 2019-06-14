@@ -9,7 +9,7 @@ export const getIndex = async ({ collection }) => {
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        data.push(doc.data())
+        data.push(processData(doc.data()))
       })
     })
     .catch(function(error) {
