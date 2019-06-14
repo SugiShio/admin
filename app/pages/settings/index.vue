@@ -10,8 +10,7 @@ import { getIndex } from '~/utils/firebase'
 export default {
   data() {
     return {
-      data: [],
-      isLoading: true
+      data: []
     }
   },
   async created() {
@@ -20,6 +19,7 @@ export default {
     })
     this.data = data
     this.isLoading = false
+    this.$store.commit('setIsLoading', { isLoading: false })
   }
 }
 </script>

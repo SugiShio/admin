@@ -9,6 +9,9 @@ export default {
   resetAlert(state) {
     state.alert = {}
   },
+  setIsLoading(state, { isLoading }) {
+    state.isLoading = isLoading
+  },
   setSignin(state) {
     state.isSignin = true
   },

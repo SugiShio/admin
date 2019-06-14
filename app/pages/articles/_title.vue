@@ -39,7 +39,9 @@ export default {
       })
       this.data = data
       this.data.draft = !data.published
+      this.setIsLoading({ isLoading: false })
     } catch (e) {
+      this.setIsLoading({ isLoading: false })
       this.setAlert({
         title: '記事取得に失敗しました',
         description: e.toString(),
@@ -48,7 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setAlert']),
+    ...mapMutations(['setAlert', 'setIsLoading']),
     async update() {
       if (!this.data.title && !this.data.body) return
       try {

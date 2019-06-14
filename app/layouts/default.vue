@@ -27,7 +27,7 @@ el-container.m-container
       )
         el-menu-item(index='/articles') 記事
         el-menu-item(index='/settings') 設定
-    el-main.m-main
+    el-main.m-main(v-loading='isLoading')
       el-alert.mb-20(
       v-if='alert.title'
       :title='alert.title'
@@ -43,7 +43,7 @@ import firebase from '~/plugins/firebase'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   computed: {
-    ...mapGetters(['alert', 'colors', 'user']),
+    ...mapGetters(['alert', 'colors', 'isLoading', 'user']),
     label() {
       if (!this.user) return
       return this.user.displayName || this.user.email
@@ -62,7 +62,7 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(['resetAlert']),
+    ...mapMutations(['resetAlert', 'setIsLoading']),
     handleCommand(command) {
       this[command]()
     },
@@ -79,8 +79,11 @@ export default {
     }
   },
   watch: {
-    $route(value) {
+    $route(newRoute, oldRoute) {
       this.resetAlert()
+      if (newRoute.path !== oldRoute.path) {
+        this.setIsLoading({ isLoading: true })
+      }
     }
   }
 }

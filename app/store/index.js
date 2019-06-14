@@ -15,6 +15,7 @@ const state = () => ({
       background: '#f3f3f2'
     }
   },
+  isLoading: true,
   isSignin: false,
   user: null
 })

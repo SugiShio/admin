@@ -8,7 +8,6 @@ section.m-page
       icon='el-icon-plus'
       ) 新規投稿
   el-table(
-  v-loading='isLoading'
   :data='data'
   )
     el-table-column(
@@ -31,25 +30,17 @@ import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
-      data: [],
-      isLoading: true
+      data: []
     }
   },
   async created() {
     const data = await getIndex({
       collection: 'articles'
     })
-    this.data = data.map(v => {
-      const createdAt =
-        v.createdAt.seconds * 1000 + v.createdAt.nanoseconds / 1000000
-      const updatedAt =
-        v.updatedAt.seconds * 1000 + v.updatedAt.nanoseconds / 1000000
-      return { ...v, createdAt, updatedAt }
-    })
-    this.isLoading = false
+    this.setIsLoading({ isLoading: false })
   },
   methods: {
-    ...mapMutations(['setAlert']),
+    ...mapMutations(['setAlert', 'setIsLoading']),
     toEdit(title) {
       this.$router.push({
         name: 'articles-title',

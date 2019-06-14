@@ -30,8 +30,11 @@ export default {
       draft: false
     }
   },
+  created() {
+    this.setIsLoading({ isLoading: false })
+  },
   methods: {
-    ...mapMutations(['setAlert']),
+    ...mapMutations(['resetAlert', 'setIsLoading']),
     async create() {
       if (!this.title && !this.body) return
       try {
