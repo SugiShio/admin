@@ -1,0 +1,10 @@
+.m-editor {
+  &__row {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__input {
+    flex-grow: 1;
+  }
+}

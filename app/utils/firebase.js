@@ -9,7 +9,7 @@ export const getIndex = async ({ collection }) => {
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        data.push(processData(doc.data()))
+        data.push(processData(doc.data(), doc.id))
       })
     })
     .catch(function(error) {
@@ -82,12 +82,13 @@ export const signin = async ({ email, password }) => {
     })
 }
 
-const processData = obj => {
+const processData = (obj, id) => {
   Object.keys(obj).forEach(key => {
     if (obj[key].constructor.name === 'Timestamp') {
       obj[key] = getTimestamp(obj[key])
     }
   })
+  if (id) obj = { ...obj, id }
   return obj
 }
 

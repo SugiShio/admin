@@ -20,12 +20,12 @@ el-container.m-container
     el-aside(:style='styles.aside')
       el-menu(
       router
-      default-active='/articles'
       :background-color='colors.menu.background'
       :text-color='colors.menu.text'
       :active-text-color='colors.menu.accent'
       )
         el-menu-item(index='/articles') 記事
+        el-menu-item(index='/profiles') プロフィール
         el-menu-item(index='/settings') 設定
     el-main.m-main(v-loading='isLoading')
       el-alert.mb-20(
