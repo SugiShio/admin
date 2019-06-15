@@ -25,7 +25,8 @@ export default {
   },
   async created() {
     this.items = await getIndex({
-      collection: 'profiles'
+      collection: 'profiles',
+      order: 'asc'
     })
     this.setIsLoading({ isLoading: false })
   },

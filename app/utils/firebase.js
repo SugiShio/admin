@@ -1,11 +1,15 @@
 import firebase from '~/plugins/firebase'
 
-export const getIndex = async ({ collection }) => {
+export const getIndex = async ({
+  collection,
+  orderBy = 'createdAt',
+  order = 'desc'
+}) => {
   let data = []
   await firebase
     .firestore()
     .collection(collection)
-    .orderBy('createdAt', 'desc')
+    .orderBy(orderBy, order)
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach(doc => {
