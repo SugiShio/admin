@@ -27,6 +27,7 @@ el-form-item.m-editor(
 
 </template>
 <script>
+let oldValue = ''
 import { update } from '~/utils/firebase'
 import { mapMutations } from 'vuex'
 export default {
@@ -39,9 +40,16 @@ export default {
       isUpdating: false
     }
   },
+  created() {
+    oldValue = this.item.value
+  },
   methods: {
     ...mapMutations(['setAlert']),
     async update() {
+      if (oldValue == this.item.value) {
+        this.isEdit = false
+        return
+      }
       this.isUpdating = true
       try {
         await update({
@@ -51,6 +59,7 @@ export default {
             value: this.item.value
           }
         })
+        oldValue = this.item.value
         this.setAlert({
           title: '更新しました',
           type: 'success'
