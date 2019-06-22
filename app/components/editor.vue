@@ -15,6 +15,8 @@ el-form-item.m-editor(
         el-input(
         v-model='item.value'
         :disabled='isUpdating'
+        :type='type'
+        :rows='10'
         )
       div
         el-button.ml-10(
@@ -38,6 +40,11 @@ export default {
     return {
       isEdit: false,
       isUpdating: false
+    }
+  },
+  computed: {
+    type() {
+      return this.item.type || 'text'
     }
   },
   created() {
