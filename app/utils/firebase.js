@@ -88,7 +88,10 @@ export const signin = async ({ email, password }) => {
 
 const processData = (obj, id) => {
   Object.keys(obj).forEach(key => {
-    if (obj[key].constructor.name === 'Timestamp') {
+    if (
+      Number.isInteger(obj[key].seconds) &&
+      Number.isInteger(obj[key].nanoseconds)
+    ) {
       obj[key] = getTimestamp(obj[key])
     }
   })
