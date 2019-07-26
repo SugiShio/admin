@@ -11,4 +11,27 @@
   .ml-#{$i*10} {
     margin-left: #{$i * 10}px !important;
   }
+
+  .p-#{$i*10} {
+    padding: #{$i * 10}px !important;
+  }
+  .pt-#{$i*10} {
+    padding-top: #{$i * 10}px !important;
+  }
+  .pr-#{$i*10} {
+    padding-right: #{$i * 10}px !important;
+  }
+  .pb-#{$i*10} {
+    padding-bottom: #{$i * 10}px !important;
+  }
+  .pl-#{$i*10} {
+    padding-left: #{$i * 10}px !important;
+  }
+
+  .float-left {
+    float: left !important;
+  }
+  .float-right {
+    float: right !important;
+  }
 }
