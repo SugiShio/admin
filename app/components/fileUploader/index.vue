@@ -1,26 +1,33 @@
 <template lang="pug">
 el-form-item
-  label.m-fileuploader(
-  @dragover.stop.prevent='handleDragover'
-  @drop.stop.prevent='uploadFilesFromDnD'
-  :disabled='uploading'
-  )
-    i.mr-5(:class='label.icon')
-    | {{ label.text }}
-    input(
-    type='file'
-    multiple
-    :disabled='uploading'
-    @change='uploadFilesFromInput'
+  .m-fileuploader
+    .m-fileuploader__preview(
+    v-for='file in files'
     )
+      img(:src='file.src')
+    label.m-fileuploader__label(
+    @dragover.stop.prevent='handleDragover'
+    @drop.stop.prevent='uploadFilesFromDnD'
+    :disabled='uploading'
+    )
+      i.mr-5(:class='label.icon')
+      | {{ label.text }}
+      input(
+      type='file'
+      multiple
+      :disabled='uploading'
+      @change='uploadFilesFromInput'
+      )
 </template>
 
 <script>
 import { upload } from '~/utils/firebase'
 import { getRandomString } from '~/utils/string'
+const reader = new FileReader()
 export default {
   data() {
     return {
+      files: [],
       uploading: false
     }
   },
@@ -34,6 +41,11 @@ export default {
           }
     }
   },
+  created() {
+    reader.onload = event => {
+      this.files.push({ src: event.target.result })
+    }
+  },
   methods: {
     async uploadFile(files) {
       this.uploading = true
@@ -43,6 +55,7 @@ export default {
         try {
           await upload({ path: '/images/' + filname + ext, file: files[i] })
           this.uploading = false
+          reader.readAsDataURL(files[i])
         } catch (error) {
           this.uploading = false
           throw error
