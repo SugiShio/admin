@@ -65,6 +65,18 @@ export const update = async ({ collection, id, data }) => {
   return result
 }
 
+export const upload = async ({ path, file }) => {
+  const result = await firebase
+    .storage()
+    .ref()
+    .child(path)
+    .put(file)
+    .catch(error => {
+      throw error
+    })
+  return result
+}
+
 export const deleteDoc = async ({ collection, id }) => {
   const result = await firebase
     .firestore()

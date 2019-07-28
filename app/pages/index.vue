@@ -6,5 +6,9 @@ el-card(
 </template>
 
 <script>
-export default {}
+export default {
+  created() {
+    this.$store.commit('setIsLoading', { isLoading: false })
+  }
+}
 </script>
