@@ -9,6 +9,12 @@
   color: $color-el-text;
   border: 1px dashed $color-el-inputborder;
 
+  &[disabled] {
+    cursor: default;
+    color: lighten($color-el-text, 30%);
+    background-color: lighten($color-el-inputborder, 10%);
+  }
+
   &:hover {
     background-color: lighten($color-el-inputborder, 10%);
   }
