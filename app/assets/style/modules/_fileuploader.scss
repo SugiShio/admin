@@ -1,0 +1,19 @@
+.m-fileuploader {
+  line-height: 40px;
+  display: block;
+  width: 100%;
+  padding: 0 10px;
+  cursor: pointer;
+  transition: $transition-delay;
+  text-align: center;
+  color: $color-el-text;
+  border: 1px dashed $color-el-inputborder;
+
+  &:hover {
+    background-color: lighten($color-el-inputborder, 10%);
+  }
+
+  input {
+    display: none;
+  }
+}

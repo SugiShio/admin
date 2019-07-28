@@ -6,6 +6,9 @@ $color-fujiiro: #bbbcde;
 $color-shioniro: #867ba9;
 $color-usuzumi: #a3a3a2;
 
+$color-el-inputborder: #dcdfe6;
+$color-el-text: #606266;
+
 $font-serif: 'EB Garamond', 'ヒラギノ明朝 ProN W3', 'HiraMinProN-W3', 'HG明朝E',
   'ＭＳ Ｐ明朝', 'MS PMincho', 'MS 明朝', serif;
 $font-sansserif: 'Open Sans', '游ゴシック体', 'Yu Gothic', YuGothic,
@@ -18,3 +21,5 @@ $bp-sp: 600px;
 $bp-tb: 960px;
 
 $font-size-pagetitle: 20px;
+
+$transition-delay: 0.3s;
