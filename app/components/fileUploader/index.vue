@@ -49,27 +49,38 @@ export default {
   methods: {
     async uploadFile(files) {
       this.uploading = true
+      let paths = []
       for (let i = 0; i < files.length; i++) {
         const filname = getRandomString()
         const ext = files[i].name.match(/\.[a-z]*$/i)
         try {
-          await upload({ path: '/images/' + filname + ext, file: files[i] })
+          const path = '/images/' + filname + ext
+          await upload({ path, file: files[i] })
           this.uploading = false
           reader.readAsDataURL(files[i])
+          paths.push(path)
         } catch (error) {
           this.uploading = false
           throw error
         }
       }
+      return { paths }
     },
     uploadFilesFromDnD(event) {
-      this.uploadFile(event.dataTransfer.files)
+      this.uploadFile(event.dataTransfer.files).then(result =>
+        this.emitPath(result.paths)
+      )
     },
     uploadFilesFromInput(event) {
-      this.uploadFile(event.target.files)
+      this.uploadFile(event.target.files).then(result =>
+        this.emitPath(result.paths)
+      )
     },
     handleDragover(event) {
       event.dataTransfer.dropEffect = 'copy'
+    },
+    emitPath(paths) {
+      this.$emit('file-uploaded', paths)
     }
   }
 }

@@ -5,10 +5,17 @@ el-form(label-width='120px')
     v-model='data.title'
     )
   el-form-item(label='本文')
-    el-input(
+    el-input#body(
     v-model='data.body'
     type='textarea'
     :autosize='{ minRows: 4, maxRows: 12}'
+    v-loading='uploading'
+    )
+    input(
+    type='file'
+    multiple
+    @change='uploadFilesFromInput'
+    :disabled='uploading'
     )
   el-form-item
     el-checkbox(v-model='data.draft') 下書き
@@ -20,15 +27,14 @@ el-form(label-width='120px')
 </template>
 
 <script>
-import { getShow, update } from '~/utils/firebase'
 import { mapMutations } from 'vuex'
+import { getShow, update, upload } from '~/utils/firebase'
+import { getRandomString } from '~/utils/string'
 export default {
   data() {
     return {
-      title: '',
-      body: '',
-      draft: false,
-      data: {}
+      data: {},
+      uploading: false
     }
   },
   async created() {
@@ -48,6 +54,18 @@ export default {
       })
     }
   },
+  mounted() {
+    document.getElementById('body').addEventListener('dragover', event => {
+      event.stopPropagation()
+      event.preventDefault()
+      event.dataTransfer.dropEffect = 'copy'
+    })
+    document.getElementById('body').addEventListener('drop', event => {
+      event.stopPropagation()
+      event.preventDefault()
+      this.uploadFilesFromDnD(event)
+    })
+  },
   methods: {
     ...mapMutations(['setAlert', 'setIsLoading']),
     async update() {
@@ -59,7 +77,8 @@ export default {
           data: {
             title: this.data.title,
             body: this.data.body,
-            published: !this.data.draft
+            published: !this.data.draft,
+            images: this.data.images
           }
         })
         this.setAlert({
@@ -73,6 +92,38 @@ export default {
           type: 'error'
         })
       }
+    },
+    uploadFilesFromDnD(event) {
+      this.uploadFile(event.dataTransfer.files).then(result => {
+        result.paths.forEach(path => {
+          this.data.body += `\n![](${path})`
+        })
+      })
+    },
+    uploadFilesFromInput(event) {
+      this.uploadFile(event.target.files).then(result => {
+        result.paths.forEach(path => {
+          this.data.body += `\n![](${path})`
+        })
+      })
+    },
+    async uploadFile(files) {
+      this.uploading = true
+      let paths = []
+      for (let i = 0; i < files.length; i++) {
+        const filname = getRandomString()
+        const ext = files[i].name.match(/\.[a-z]*$/i)
+        try {
+          const path = '/images/' + filname + ext
+          const imageUrl = await upload({ path, file: files[i] })
+          paths.push(imageUrl)
+          this.uploading = false
+        } catch (error) {
+          this.uploading = false
+          throw error
+        }
+      }
+      return { paths }
     }
   }
 }
